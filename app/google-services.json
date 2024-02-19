@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "330793044855",
+    "project_id": "note-plus-43ba4",
+    "storage_bucket": "note-plus-43ba4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:330793044855:android:b29578042a973d99c8ef72",
+        "android_client_info": {
+          "package_name": "com.sks.todoappwithfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1COrO3aVl3DgRxwTO8KbQHXuHxEZDRgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
