@@ -2,12 +2,16 @@ package com.sks.todoappwithfirebase
 
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.sks.todoappwithfirebase.databinding.ActivityCreateAccountBinding
 
 class CreateAccountActivity : AppCompatActivity() {
 
     private lateinit var createAccountBinding: ActivityCreateAccountBinding
+
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +35,45 @@ class CreateAccountActivity : AppCompatActivity() {
         val confirmPassword = createAccountBinding.confirmPasswordEditText.text.toString()
 
         val isValidated = validateData(fullName, email, password, confirmPassword)
+        if (!isValidated) {
+            return
+        }
 
+        createAccountInFirebase(email, password);
+
+    }
+
+    private fun createAccountInFirebase(email: String, password: String) {
+        changeInProgress(true)
+
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            changeInProgress(false)
+            if (task.isSuccessful) {
+                ToastUtility.showToast(
+                    applicationContext,
+                    "Your account has been created. Please check email to verify."
+                )
+
+                //send a verification email to the current user and logout from the application
+                auth.currentUser?.sendEmailVerification()
+                auth.signOut()
+                finish()
+            } else {
+                ToastUtility.showToast(
+                    applicationContext, task.exception?.localizedMessage ?: "Something went wrong."
+                )
+            }
+        }
+    }
+
+    private fun changeInProgress(inProgress: Boolean) {
+        if (inProgress) {
+            createAccountBinding.progressBar.visibility = View.VISIBLE
+            createAccountBinding.createAccountBtn.visibility = View.GONE
+        } else {
+            createAccountBinding.progressBar.visibility = View.GONE
+            createAccountBinding.createAccountBtn.visibility = View.VISIBLE
+        }
     }
 
     private fun validateData(
