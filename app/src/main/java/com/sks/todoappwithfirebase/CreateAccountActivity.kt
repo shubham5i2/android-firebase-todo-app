@@ -49,7 +49,7 @@ class CreateAccountActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             changeInProgress(false)
             if (task.isSuccessful) {
-                ToastUtility.showToast(
+                Utility.showToast(
                     applicationContext,
                     "Your account has been created. Please check email to verify."
                 )
@@ -59,7 +59,7 @@ class CreateAccountActivity : AppCompatActivity() {
                 auth.signOut()
                 finish()
             } else {
-                ToastUtility.showToast(
+                Utility.showToast(
                     applicationContext, task.exception?.localizedMessage ?: "Something went wrong."
                 )
             }

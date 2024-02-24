@@ -53,12 +53,12 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 } else {
-                    ToastUtility.showToast(
+                    Utility.showToast(
                         applicationContext, "Email not verified. Please verify your email."
                     )
                 }
             } else {
-                ToastUtility.showToast(
+                Utility.showToast(
                     applicationContext,
                     task.exception?.localizedMessage ?: "Something went wrong."
                 )
