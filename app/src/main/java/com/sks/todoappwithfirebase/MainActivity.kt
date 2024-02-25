@@ -10,11 +10,18 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import com.sks.todoappwithfirebase.databinding.ActivityMainBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var noteAdapter: NoteAdapter
+
+    private var formattedDate = ""
+    private var greeting = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         supportActionBar?.title = "My notes"
+
+        greeting = getGreeting()
+        mainBinding.greetingTextView.text = greeting
+
+        formattedDate = formatDate(Date())
+        mainBinding.dayTextView.text = formattedDate
 
         mainBinding.addNoteBtn.setOnClickListener {
             val intent = Intent(this@MainActivity, NoteDetailsActivity::class.java)
@@ -71,5 +84,21 @@ class MainActivity : AppCompatActivity() {
         mainBinding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         noteAdapter = NoteAdapter(options, this@MainActivity)
         mainBinding.recyclerView.adapter = noteAdapter
+    }
+
+    private fun getGreeting(): String {
+        val calendar = Calendar.getInstance()
+        val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
+
+        return when {
+            hourOfDay < 12 -> "Good morning!"
+            hourOfDay < 18 -> "Good afternoon!"
+            else -> "Good evening!"
+        }
+    }
+
+    private fun formatDate(date: Date): String {
+        val dateFormat = SimpleDateFormat("EEEE, dd MMMM, yyyy", Locale.getDefault())
+        return dateFormat.format(date).uppercase(Locale.getDefault())
     }
 }
