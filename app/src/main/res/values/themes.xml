@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.TodoAppWithFirebase" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.TodoAppWithFirebase" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/my_primary</item>
+        <item name="colorPrimary">#FF24D3FE</item>
     </style>
 
     <style name="Theme.TodoAppWithFirebase" parent="Base.Theme.TodoAppWithFirebase" />

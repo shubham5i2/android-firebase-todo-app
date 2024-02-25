@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="12dp"
     android:background="@drawable/rounded_corner"
-    android:backgroundTint="@color/white"
+    android:backgroundTint="#FFEB3B"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="4dp"
+        android:textStyle="bold"
         android:text="Note title"
         android:textColor="@color/black"
         android:textSize="18sp" />
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="4dp"
+        android:textColor="@color/black"
         android:ellipsize="end"
         android:maxLines="3"
         android:text="This can be note content"

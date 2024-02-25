@@ -19,6 +19,8 @@ class CreateAccountActivity : AppCompatActivity() {
         val view = createAccountBinding.root
         setContentView(view)
 
+        supportActionBar?.hide()
+
         createAccountBinding.createAccountBtn.setOnClickListener {
             createAccount()
         }
@@ -29,12 +31,11 @@ class CreateAccountActivity : AppCompatActivity() {
     }
 
     private fun createAccount() {
-        val fullName = createAccountBinding.fullnameEditText.text.toString()
         val email = createAccountBinding.emailEditText.text.toString()
         val password = createAccountBinding.passwordEditText.text.toString()
         val confirmPassword = createAccountBinding.confirmPasswordEditText.text.toString()
 
-        val isValidated = validateData(fullName, email, password, confirmPassword)
+        val isValidated = validateData(email, password, confirmPassword)
         if (!isValidated) {
             return
         }
@@ -77,12 +78,9 @@ class CreateAccountActivity : AppCompatActivity() {
     }
 
     private fun validateData(
-        fullName: String, email: String, password: String, confirmPassword: String
+        email: String, password: String, confirmPassword: String
     ): Boolean {
-        if (fullName.trim().equals("")) {
-            createAccountBinding.fullnameEditText.error = "Full name is required"
-            return false
-        }
+
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             createAccountBinding.emailEditText.error = "Please enter a valid email address"
             return false

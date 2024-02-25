@@ -20,6 +20,8 @@ class LoginActivity : AppCompatActivity() {
         val view = loginBinding.root
         setContentView(view)
 
+        supportActionBar?.hide()
+
         loginBinding.loginBtn.setOnClickListener {
             loginUser()
         }

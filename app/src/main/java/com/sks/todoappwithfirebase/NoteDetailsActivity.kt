@@ -1,5 +1,6 @@
 package com.sks.todoappwithfirebase
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -34,13 +35,14 @@ class NoteDetailsActivity : AppCompatActivity() {
         noteDetailsBinding.notesTitleText.setText(title)
         noteDetailsBinding.notesContentText.setText(content)
         if (isEditMode) {
-            noteDetailsBinding.pageTitle.text = "Edit your note"
-            noteDetailsBinding.deleteNoteTextViewBtn.visibility = View.VISIBLE
+            supportActionBar?.title = "Edit your note"
+        } else {
+            supportActionBar?.title = "Add your note"
         }
 
-        noteDetailsBinding.saveNoteBtn.setOnClickListener {
+        /*noteDetailsBinding.saveNoteBtn.setOnClickListener {
             saveNote()
-        }
+        }*/
 
         noteDetailsBinding.deleteNoteTextViewBtn.setOnClickListener {
             deleteNoteFromFirebase()

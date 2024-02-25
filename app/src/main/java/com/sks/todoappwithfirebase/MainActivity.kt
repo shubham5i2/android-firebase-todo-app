@@ -2,7 +2,8 @@ package com.sks.todoappwithfirebase
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.PopupMenu
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -21,13 +22,11 @@ class MainActivity : AppCompatActivity() {
         val view = mainBinding.root
         setContentView(view)
 
+        supportActionBar?.title = "My notes"
+
         mainBinding.addNoteBtn.setOnClickListener {
             val intent = Intent(this@MainActivity, NoteDetailsActivity::class.java)
             startActivity(intent)
-        }
-
-        mainBinding.menuBtn.setOnClickListener {
-            showMenu()
         }
 
         setupDataInRecyclerView()
@@ -48,6 +47,21 @@ class MainActivity : AppCompatActivity() {
         noteAdapter.notifyDataSetChanged()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_activity_menu_option, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == R.id.logout) {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun setupDataInRecyclerView() {
         val query = Utility.getCollectionReferenceForNotes()
             .orderBy("timestamp", Query.Direction.DESCENDING)
@@ -57,21 +71,5 @@ class MainActivity : AppCompatActivity() {
         mainBinding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         noteAdapter = NoteAdapter(options, this@MainActivity)
         mainBinding.recyclerView.adapter = noteAdapter
-    }
-
-    private fun showMenu() {
-        val popupMenu = PopupMenu(this@MainActivity, mainBinding.menuBtn)
-        popupMenu.menu.add("Logout")
-        popupMenu.show()
-
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-            if (item.title == "Logout") {
-                FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                finish()
-                return@OnMenuItemClickListener true
-            }
-            return@OnMenuItemClickListener false
-        })
     }
 }
