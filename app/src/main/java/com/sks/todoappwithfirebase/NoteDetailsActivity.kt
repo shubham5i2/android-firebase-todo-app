@@ -1,8 +1,6 @@
 package com.sks.todoappwithfirebase
 
-import android.graphics.Color
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
@@ -12,40 +10,16 @@ class NoteDetailsActivity : AppCompatActivity() {
 
     private lateinit var noteDetailsBinding: ActivityNoteDetailsBinding
 
-    private var title: String? = ""
-    private var content: String? = ""
-    private var docId: String? = ""
-    private var isEditMode: Boolean = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         noteDetailsBinding = ActivityNoteDetailsBinding.inflate(layoutInflater)
         val view = noteDetailsBinding.root
         setContentView(view)
 
-        //for update notes scenario
-        title = intent.getStringExtra("title")
-        content = intent.getStringExtra("content")
-        docId = intent.getStringExtra("docId")
+        supportActionBar?.title = "Add note"
 
-        if (docId != null && docId!!.isNotEmpty()) {
-            isEditMode = true
-        }
-
-        noteDetailsBinding.notesTitleText.setText(title)
-        noteDetailsBinding.notesContentText.setText(content)
-        if (isEditMode) {
-            supportActionBar?.title = "Edit your note"
-        } else {
-            supportActionBar?.title = "Add your note"
-        }
-
-        /*noteDetailsBinding.saveNoteBtn.setOnClickListener {
+        noteDetailsBinding.addNoteTextViewBtn.setOnClickListener {
             saveNote()
-        }*/
-
-        noteDetailsBinding.deleteNoteTextViewBtn.setOnClickListener {
-            deleteNoteFromFirebase()
         }
     }
 
@@ -71,13 +45,8 @@ class NoteDetailsActivity : AppCompatActivity() {
     }
 
     private fun saveNoteInFirebase(note: Note) {
-        val documentReference: DocumentReference
-
-        if (isEditMode) {
-            documentReference = Utility.getCollectionReferenceForNotes().document(docId!!)
-        } else {
-            documentReference = Utility.getCollectionReferenceForNotes().document()
-        }
+        val documentReference: DocumentReference =
+            Utility.getCollectionReferenceForNotes().document()
 
         documentReference.set(note).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -89,7 +58,7 @@ class NoteDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun deleteNoteFromFirebase() {
+    /*private fun deleteNoteFromFirebase() {
 
         val documentReference: DocumentReference =
             Utility.getCollectionReferenceForNotes().document(docId!!)
@@ -102,5 +71,5 @@ class NoteDetailsActivity : AppCompatActivity() {
                 Utility.showToast(this@NoteDetailsActivity, "Failed while deleting note")
             }
         }
-    }
+    }*/
 }
