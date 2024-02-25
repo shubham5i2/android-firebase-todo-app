@@ -31,10 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.title = "My notes"
 
-        greeting = getGreeting()
+        greeting = Utility.getGreeting()
         mainBinding.greetingTextView.text = greeting
 
-        formattedDate = formatDate(Date())
+        formattedDate = Utility.formatDate(Date())
         mainBinding.dayTextView.text = formattedDate
 
         mainBinding.addNoteBtn.setOnClickListener {
@@ -84,21 +84,5 @@ class MainActivity : AppCompatActivity() {
         mainBinding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
         noteAdapter = NoteAdapter(options, this@MainActivity)
         mainBinding.recyclerView.adapter = noteAdapter
-    }
-
-    private fun getGreeting(): String {
-        val calendar = Calendar.getInstance()
-        val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
-
-        return when {
-            hourOfDay < 12 -> "Good morning!"
-            hourOfDay < 18 -> "Good afternoon!"
-            else -> "Good evening!"
-        }
-    }
-
-    private fun formatDate(date: Date): String {
-        val dateFormat = SimpleDateFormat("EEEE, dd MMMM, yyyy", Locale.getDefault())
-        return dateFormat.format(date).uppercase(Locale.getDefault())
     }
 }
